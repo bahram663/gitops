@@ -1,0 +1,63 @@
+# Preview Environment Template Configuration
+app:
+  name: my-app
+  version: v1.0.0
+  replicas: 1
+  image:
+    repository: my-app
+    tag: latest
+    pullPolicy: Always
+
+environment:
+  name: preview
+  debug: true
+  logLevel: debug
+
+resources:
+  requests:
+    memory: "32Mi"
+    cpu: "100m"
+  limits:
+    memory: "64Mi"
+    cpu: "250m"
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+ingress:
+  enabled: true
+  className: nginx
+  host: my-app-preview.example.com
+  tls:
+    enabled: false
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+
+monitoring:
+  enabled: false
+  prometheus:
+    enabled: false
+  grafana:
+    enabled: false
+
+security:
+  podSecurityPolicy:
+    enabled: false
+  networkPolicy:
+    enabled: false
+  serviceAccount:
+    create: true
+    annotations: {}
+
+# Preview-specific settings
+preview:
+  ttl: "24h"
+  autoCleanup: true
+  notifications:
+    slack:
+      enabled: true
+      channel: "#preview-envs"
+    email:
+      enabled: false

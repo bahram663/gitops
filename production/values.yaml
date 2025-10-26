@@ -1,0 +1,56 @@
+# Production Environment Configuration
+app:
+  name: my-app
+  version: v1.0.0
+  replicas: 5
+  image:
+    repository: my-app
+    tag: v1.0.0-prod
+    pullPolicy: IfNotPresent
+
+environment:
+  name: production
+  debug: false
+  logLevel: info
+
+resources:
+  requests:
+    memory: "128Mi"
+    cpu: "500m"
+  limits:
+    memory: "256Mi"
+    cpu: "1000m"
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+ingress:
+  enabled: true
+  className: nginx
+  host: my-app.production.example.com
+  tls:
+    enabled: true
+    secretName: my-app-prod-tls
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+
+monitoring:
+  enabled: true
+  prometheus:
+    enabled: true
+    scrapeInterval: 30s
+  grafana:
+    enabled: true
+
+security:
+  podSecurityPolicy:
+    enabled: true
+  networkPolicy:
+    enabled: true
+  serviceAccount:
+    create: true
+    annotations: {}
