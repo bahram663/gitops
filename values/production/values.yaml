@@ -1,7 +1,7 @@
 # Production environment values
 image:
   repository: acrvclusterpoc.azurecr.io/task-manager
-  tag: "0cc5f49249cd4a1a2f6e3e81c286f188c4e12479"
+  tag: "9671d22d7935ce6032f6e27ad7d75e36169b7edc"
   pullPolicy: Always
 
 replicaCount: 1
