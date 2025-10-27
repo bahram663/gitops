@@ -1,0 +1,36 @@
+image:
+  repository: acrvclusterpoc.azurecr.io/task-manager
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+env:
+  APP_ENV: "dev"
+  APP_MESSAGE: "Hello from task-manager!"
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8000
+
+ingress:
+  enabled: true
+  className: nginx
+  host: ""
+  tlsEnabled: false
+  tls: []
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
