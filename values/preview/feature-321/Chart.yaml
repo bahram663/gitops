@@ -1,0 +1,6 @@
+apiVersion: v2
+name: task-manager-feature-321
+description: Task Manager Preview Environment for feature-321
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
