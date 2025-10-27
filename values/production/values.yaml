@@ -1,0 +1,33 @@
+# Production environment values
+image:
+  repository: acrvclusterpoc.azurecr.io/task-manager
+  tag: "latest"
+  pullPolicy: Always
+
+replicaCount: 3
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  hosts:
+    - host: task-manager.bahram.az
+      paths:
+        - path: /
+          pathType: Prefix
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+env:
+  APP_ENV: production
+
+service:
+  type: ClusterIP
+  port: 80

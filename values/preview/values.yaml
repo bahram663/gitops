@@ -1,0 +1,33 @@
+# Template for preview environments
+image:
+  repository: acrvclusterpoc.azurecr.io/task-manager
+  tag: "preview"
+  pullPolicy: Always
+
+replicaCount: 1
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  hosts:
+    - host: BRANCH-task-manager.bahram.az
+      paths:
+        - path: /
+          pathType: Prefix
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+env:
+  APP_ENV: preview
+
+service:
+  type: ClusterIP
+  port: 80

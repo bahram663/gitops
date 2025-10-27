@@ -1,0 +1,33 @@
+# Test environment values
+image:
+  repository: acrvclusterpoc.azurecr.io/task-manager
+  tag: "test"
+  pullPolicy: Always
+
+replicaCount: 1
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  hosts:
+    - host: task-manager-test.bahram.az
+      paths:
+        - path: /
+          pathType: Prefix
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+env:
+  APP_ENV: test
+
+service:
+  type: ClusterIP
+  port: 80

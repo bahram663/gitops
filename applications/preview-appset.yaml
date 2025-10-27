@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: task-manager-preview
+  namespace: argocd
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/bahram663/gitops.git
+      revision: HEAD
+      files:
+      - path: "values/preview/*-values.yaml"
+  template:
+    metadata:
+      name: 'task-manager-{{path.basenameNormalized}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/bahram663/task-manager.git
+        targetRevision: HEAD
+        path: helm/task-manager
+        helm:
+          valueFiles:
+          - 'https://raw.githubusercontent.com/bahram663/gitops/main/{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'task-manager-{{path.basenameNormalized}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
