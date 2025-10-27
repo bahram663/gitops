@@ -1,6 +1,0 @@
-apiVersion: v2
-name: task-manager-feature-341
-description: Task Manager Preview Environment for feature-341
-type: application
-version: 1.0.0
-appVersion: "1.0.0"
