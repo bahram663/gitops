@@ -5,28 +5,16 @@ metadata:
   name: {{ include "task-manager.fullname" . }}
   labels:
     {{- include "task-manager.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-spec:
-  ingressClassName: {{ .Values.ingress.className }}
-  rules:
-  {{- if .Values.ingress.hosts }}
-  {{- range .Values.ingress.hosts }}
-  - host: {{ .host }}
-    http:
-      paths:
-      {{- range .paths }}
-      - path: {{ .path }}
-        pathType: {{ .pathType }}
-        backend:
-          service:
-            name: {{ include "task-manager.fullname" $ }}
-            port:
-              number: {{ $.Values.service.port }}
-      {{- end }}
+    {{- toYaml . | nindent 4 }}
   {{- end }}
-  {{- else }}
-  - host: {{ .Values.ingress.host }}
+spec:
+  {{- if .Values.ingress.className }}
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- end }}
+  rules:
+  - host: {{ .Values.ingress.host | quote }}
     http:
       paths:
       - path: /
@@ -36,5 +24,4 @@ spec:
             name: {{ include "task-manager.fullname" . }}
             port:
               number: {{ .Values.service.port }}
-  {{- end }}
 {{- end }}
