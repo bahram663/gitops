@@ -5,11 +5,11 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - git:
-      repoURL: https://github.com/bahram663/gitops.git
-      revision: main
-      files:
-        - path: "values/preview/*-values.yaml"
+    - git:
+        repoURL: https://github.com/bahram663/gitops.git
+        revision: main
+        files:
+          - path: "values/preview/*-values.yaml"
   template:
     metadata:
       name: 'task-manager-{{path.basenameNormalized}}'
@@ -20,8 +20,9 @@ spec:
         targetRevision: HEAD
         path: helm/task-manager
         helm:
-          valueFiles:
-            - '{{path}}'        # ✅ Use relative path inside repo instead of external URL
+          # 👇 read the YAML file from GitOps repo and pass it inline as values
+          values: |
+            {{ readFile .path }}
       destination:
         server: https://kubernetes.default.svc
         namespace: 'task-manager-{{path.basenameNormalized}}'
@@ -30,4 +31,4 @@ spec:
           prune: true
           selfHeal: true
         syncOptions:
-        - CreateNamespace=true
+          - CreateNamespace=true
