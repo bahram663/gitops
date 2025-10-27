@@ -7,9 +7,9 @@ spec:
   generators:
   - git:
       repoURL: https://github.com/bahram663/gitops.git
-      revision: HEAD
+      revision: main
       files:
-      - path: "values/preview/*-values.yaml"
+        - path: "values/preview/*-values.yaml"
   template:
     metadata:
       name: 'task-manager-{{path.basenameNormalized}}'
@@ -21,7 +21,7 @@ spec:
         path: helm/task-manager
         helm:
           valueFiles:
-          - 'https://raw.githubusercontent.com/bahram663/gitops/main/{{path}}'
+            - '{{path}}'        # ✅ Use relative path inside repo instead of external URL
       destination:
         server: https://kubernetes.default.svc
         namespace: 'task-manager-{{path.basenameNormalized}}'
