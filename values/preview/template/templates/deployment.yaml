@@ -26,7 +26,7 @@ spec:
           protocol: TCP
         env:
         - name: APP_ENV
-          value: {{ .Values.env.APP_ENV | quote }}
+          value: {{- include "task-manager.labels" . | nindent 4 }}
         - name: APP_MESSAGE
           value: {{ .Values.env.APP_MESSAGE | default "Hello from AKS!" | quote }}
         livenessProbe:
