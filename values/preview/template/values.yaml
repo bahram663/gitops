@@ -5,9 +5,9 @@ image:
 
 replicaCount: 1
 
+replicaCount: 1
 env:
-  APP_ENV: "{{- include "task-manager.labels" . | nindent 4 }}"
-  APP_MESSAGE: "Hello from task-manager!"
+  APP_MESSAGE: "Hello from AKS!"
 
 service:
   type: ClusterIP
