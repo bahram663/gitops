@@ -1,7 +1,7 @@
 # Test environment values
 image:
   repository: acrvclusterpoc.azurecr.io/task-manager
-  tag: "test"
+  tag: "fb3da61164088f13f4f2638f2d184eacf96e62fa"
   pullPolicy: Always
 
 replicaCount: 1
