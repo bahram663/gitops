@@ -1,6 +1,6 @@
 image:
   repository: acrvclusterpoc.azurecr.io/task-manager
-  tag: "2cb595d0933fc2afc9440d34ffa932f4db431573"
+  tag: "0608099f60224e1c976ef2a2c1a1bc7f6592aa65"
   pullPolicy: IfNotPresent
 
 replicaCount: 1
